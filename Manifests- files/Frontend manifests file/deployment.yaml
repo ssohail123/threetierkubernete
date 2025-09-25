@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: assignment1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: frontendcontainer
+        image: sohail03/frontend:latest
+        imagePullPolicy: Always
+        env:
+          - name: REACT_APP_BACKEND_URL
+            value: "http://add09544aa5114df18e784f1977dc02f-1928005308.ap-south-1.elb.amazonaws.com:3500/api/tasks" # it changes every time you deploy the backend service
+        ports:
+          - containerPort: 3000
+        resources:
+          requests:
+            cpu: "100m"
+          limits:
+            cpu: "500m"
